@@ -12,21 +12,13 @@ import React, { useState } from 'react';
 import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
 import { useIntl, Link, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
-import { accountLogin, getFakeCaptcha, LoginParamsType } from '@/services/login';
+import type { LoginParamsType } from '@/services/login';
+import { accountLogin, getFakeCaptcha } from '@/services/login';
 
 import styles from './index.less';
 
-const LoginMessage: React.FC<{
-  content: string;
-}> = ({ content }) => (
-  <Alert
-    style={{
-      marginBottom: 24,
-    }}
-    message={content}
-    type="error"
-    showIcon
-  />
+const LoginMessage: React.FC<{ content: string }> = ({ content }) => (
+  <Alert style={{ marginBottom: 24 }} message={content} type="error" showIcon />
 );
 
 /**
@@ -65,8 +57,8 @@ const Login: React.FC<{}> = () => {
       // 登录
       const msg = await accountLogin({ ...values, type });
       if (msg.status === 'ok' && msg.token) {
-        //如果登录之后，服务器会返回JWT的token，需要把token保存起来
-        localStorage.setItem('token',msg.token);
+        // 如果登录之后，服务器会返回JWT的token，需要把token保存起来
+        localStorage.setItem('token', msg.token);
         message.success('登录成功！');
         await fetchUserInfo();
         goto();
@@ -97,9 +89,7 @@ const Login: React.FC<{}> = () => {
 
         <div className={styles.main}>
           <ProForm
-            initialValues={{
-              autoLogin: true,
-            }}
+            initialValues={{ autoLogin: true }}
             submitter={{
               searchConfig: {
                 submitText: intl.formatMessage({
@@ -116,7 +106,7 @@ const Login: React.FC<{}> = () => {
                 },
               },
             }}
-            onFinish={async (values) => {
+            onFinish={async (values: any) => {
               handleSubmit(values);
             }}
           >
