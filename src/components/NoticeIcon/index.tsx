@@ -8,7 +8,11 @@ import { queryNotices } from '@/services/user';
 import NoticeIcon from './NoticeIcon';
 import styles from './index.less';
 
-const getNoticeData = (notices: API.NoticeIconData[]): Record<string, API.NoticeIconData[]> => {
+const getNoticeData = (
+  notices: API.NoticeIconData[],
+): {
+  [key: string]: API.NoticeIconData[];
+} => {
   if (!notices || notices.length === 0 || !Array.isArray(notices)) {
     return {};
   }
@@ -48,8 +52,10 @@ const getNoticeData = (notices: API.NoticeIconData[]): Record<string, API.Notice
   return groupBy(newNotices, 'type');
 };
 
-const getUnreadData = (noticeData: Record<string, API.NoticeIconData[]>) => {
-  const unreadMsg: Record<string, number> = {};
+const getUnreadData = (noticeData: { [key: string]: API.NoticeIconData[] }) => {
+  const unreadMsg: {
+    [key: string]: number;
+  } = {};
   Object.keys(noticeData).forEach((key) => {
     const value = noticeData[key];
 

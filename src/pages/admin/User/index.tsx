@@ -1,15 +1,13 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Drawer, Avatar } from 'antd';
+import { Button, message, Drawer,Avatar } from 'antd';
 import React, { useState, useRef } from 'react';
-import { FormattedMessage } from 'umi';
+import { useIntl, FormattedMessage } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
+import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
-import type { FormValueType } from './components/UpdateForm';
-import UpdateForm from './components/UpdateForm';
-import type { TableListItem } from './data.d';
+import UpdateForm, { FormValueType } from './components/UpdateForm';
+import { TableListItem } from './data.d';
 import { queryUser, updateUser, addUser, removeUser } from './service';
 import moment from 'moment';
 /**
@@ -34,14 +32,14 @@ const handleAdd = async (fields: TableListItem) => {
  * 更新节点
  * @param fields
  */
-const handleUpdate = async (id: string, fields: FormValueType) => {
+const handleUpdate = async (id:string,fields: FormValueType) => {
   const hide = message.loading('正在配置');
   try {
     await updateUser({
       id,
       username: fields.username,
       password: fields.password,
-      email: fields.email,
+      email: fields.email
     });
     hide();
 
@@ -84,7 +82,7 @@ const TableList: React.FC<{}> = () => {
   const [selectedRowsState, setSelectedRows] = useState<TableListItem[]>([]);
   const columns: ProColumns<TableListItem>[] = [
     {
-      title: '用户名',
+      title: "用户名",
       dataIndex: 'username',
       tip: '用户名',
       render: (dom, entity) => {
@@ -92,55 +90,55 @@ const TableList: React.FC<{}> = () => {
       },
     },
     {
-      title: '密码',
+      title: "密码",
       dataIndex: 'password',
-      hideInTable: true, // 列表页也不要显示
-      hideInDescriptions: true, // 在详情页不要显示
+      hideInTable:true,//列表页也不要显示
+      hideInDescriptions:true//在详情页不要显示
     },
     {
-      title: '角色',
+      title: "角色",
       dataIndex: 'access',
-      search: false,
-      filters: [
-        { text: '普通用户', value: 'user' },
-        { text: '管理员', value: 'admin' },
+      search:false,
+      filters:[
+        {text:'普通用户',value:'user'},
+        {text:'管理员',value:'admin'}
       ],
-      valueEnum: {
-        user: { text: '普通用户' },
-        admin: { text: '管理员' },
-      },
+      valueEnum:{
+        user:{text:'普通用户'},
+        admin:{text:'管理员'}
+      }
     },
     {
-      title: '邮箱',
-      dataIndex: 'email',
+      title: "邮箱",
+      dataIndex: 'email'
     },
     {
-      title: '头像',
+      title: "头像",
       dataIndex: 'avatar',
-      search: false, // 在搜索页签隐藏
-      hideInForm: true, // 在添加页面隐藏
-      render: (dom, entity) => {
-        return <Avatar src={entity.avatar} />;
-      },
+      search:false,//在搜索页签隐藏
+      hideInForm:true,//在添加页面隐藏
+      render:(dom,entity)=>{
+        return <Avatar src={entity.avatar}/>
+      }
     },
     {
-      title: '更新时间',
+      title: "更新时间",
       dataIndex: 'updatedAt',
-      sorter: true, // 可以根据此字段排序
-      hideInForm: true, // 在添加页面隐藏
-      search: false,
-      renderText: (val: string) => {
-        if (!val) return '';
-        return moment(val).fromNow(); // 绝对时间变成相对时间
-      },
+      sorter:true,//可以根据此字段排序
+      hideInForm:true,//在添加页面隐藏
+      search:false,
+      renderText:(val:string)=>{
+        if(!val)return "";
+        return moment(val).fromNow();//绝对时间变成相对时间
+      }
     },
     {
-      title: '创建时间',
+      title: "创建时间",
       dataIndex: 'createdAt',
-      sorter: true, // 可以根据此字段排序
-      hideInForm: true, // 在添加页面隐藏
-      search: false,
-      valueType: 'dateTime',
+      sorter:true,//可以根据此字段排序
+      hideInForm:true,//在添加页面隐藏
+      search:false,
+      valueType:'dateTime'
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="操作" />,
@@ -158,19 +156,19 @@ const TableList: React.FC<{}> = () => {
           </a>
         </>
       ),
-    },
+    }
   ];
 
   return (
     <PageContainer>
       <ProTable<TableListItem>
-        headerTitle={'用户管理'}
+        headerTitle={"用户管理"}
         actionRef={actionRef}
         rowKey="id"
         search={{
           labelWidth: 120,
         }}
-        pagination={{ defaultPageSize: 5 }}
+        pagination={{defaultPageSize:5}}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
@@ -222,7 +220,7 @@ const TableList: React.FC<{}> = () => {
       {userFormValues && Object.keys(userFormValues).length ? (
         <UpdateForm
           onSubmit={async (value) => {
-            const success = await handleUpdate(userFormValues.id!, value);
+            const success = await handleUpdate(userFormValues.id!,value);
             if (success) {
               handleUpdateModalVisible(false);
               setUserFormValues({});

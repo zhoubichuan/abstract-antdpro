@@ -5,20 +5,19 @@
  * For details, please see
  * https://pro.ant.design/docs/deploy
  */
-let api = 'http://192.168.1.5:3000';
 export default {
   dev: {
     '/users': {
-      target: api,
+      target: 'http://localhost:3000'
     },
     '/api/': {
-      target: api,
+      target: 'http://localhost:3000',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
-    '/dataModel': {
-      target: api,
-    },
+    '/dataModel':{
+      target: 'http://localhost:3000'
+    }
   },
   test: {
     '/api/': {

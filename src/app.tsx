@@ -1,12 +1,10 @@
 import React from 'react';
-import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
-import { PageLoading } from '@ant-design/pro-layout';
+import { Settings as LayoutSettings, PageLoading } from '@ant-design/pro-layout';
 import { notification } from 'antd';
-import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
-import { history } from 'umi';
+import { history, RequestConfig, RunTimeLayoutConfig } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
-import type { ResponseError } from 'umi-request';
+import { ResponseError } from 'umi-request';
 import { queryCurrent } from './services/user';
 import defaultSettings from '../config/defaultSettings';
 
@@ -16,7 +14,7 @@ import defaultSettings from '../config/defaultSettings';
 export const initialStateConfig = {
   loading: <PageLoading />,
 };
-// 获取 初始状态
+//获取 初始状态
 export async function getInitialState(): Promise<{
   settings?: LayoutSettings;
   currentUser?: API.CurrentUser;
@@ -107,10 +105,10 @@ const errorHandler = (error: ResponseError) => {
   }
   throw error;
 };
-// 通用的请求配置
+//通用的请求配置
 export const request: RequestConfig = {
   errorHandler,
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
-  },
+  headers:{
+    Authorization:`Bearer ${localStorage.getItem('token')}`
+  }
 };

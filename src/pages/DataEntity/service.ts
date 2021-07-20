@@ -1,13 +1,13 @@
 import { request } from 'umi';
-import type { TableListParams, TableListItem } from './data.d';
+import { TableListParams, TableListItem } from './data.d';
 // 数据实体列表查询
 export async function getDataEntityList(params?: TableListParams) {
   return request('/dataModel/getDataEntityList', {
     method: 'POST',
-    data: {
+    data:{
       ...params,
       method: 'post',
-    },
+    }
   });
 }
 // 获取数据实体详情

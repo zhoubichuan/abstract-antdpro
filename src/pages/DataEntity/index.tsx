@@ -3,13 +3,11 @@ import { Button, Divider, message, Input, Drawer } from 'antd';
 import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
+import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
-import type { FormValueType } from './components/UpdateForm';
-import UpdateForm from './components/UpdateForm';
-import type { TableListItem } from './data.d';
+import UpdateForm, { FormValueType } from './components/UpdateForm';
+import { TableListItem } from './data.d';
 import { getDataEntityList, updateRule, addRule, getDataEntityDetail } from './service';
 
 /**
