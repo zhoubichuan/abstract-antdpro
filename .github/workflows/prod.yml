@@ -1,0 +1,30 @@
+name: prod
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "16.10.0"
+      - name: 安装yarn
+        run: yarn
+      - name: Install yarn dependencies
+        run: yarn install
+      - name: Run build task
+        run: npm run build
+      - name: copy file  via ssh key
+        uses: appleboy/scp-action@master
+        with:
+          source: "dist/*"
+          host: ${{ secrets.HOST }}
+          target: "/usr/src/zhoubichuan/prod/abstract-antdpro/"
+          port: ${{ secrets.PORT }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
+          strip_components: 1

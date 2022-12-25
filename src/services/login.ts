@@ -6,19 +6,20 @@ export interface LoginParamsType {
   mobile: string;
   captcha: string;
   type: string;
+  account: string;
 }
 
 export async function accountLogin(params: LoginParamsType) {
-  return request<API.LoginStateType>('/api/login/account', {
+  return request<API.LoginStateType>(window.antdprourl + '/api/user/login', {
     method: 'POST',
     data: params,
   });
 }
 
 export async function getFakeCaptcha(mobile: string) {
-  return request(`/api/login/captcha?mobile=${mobile}`);
+  return request(window.antdprourl + `/api/login/captcha?mobile=${mobile}`);
 }
 
 export async function outLogin() {
-  return request('/api/login/outLogin');
+  return request(window.antdprourl + '/api/login/outLogin');
 }

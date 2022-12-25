@@ -1,5 +1,5 @@
 export default {
-  'menu.welcome': 'Selamat Datang',
+  'menu.home': 'Selamat Datang',
   'menu.more-blocks': 'Blocks Lainnya',
   'menu.home': 'Halaman Awal',
   'menu.admin': 'Admin',

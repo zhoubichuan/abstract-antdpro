@@ -1,5 +1,11 @@
 ﻿export default [
   {
+    path: '/home',
+    name: 'home',
+    icon: 'smile',
+    component: './home',
+  },
+  {
     path: '/user',
     layout: false,
     routes: [
@@ -9,12 +15,6 @@
         component: './user/login',
       },
     ],
-  },
-  {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: './Welcome',
   },
   {
     path: '/admin',
@@ -34,7 +34,7 @@
     path: '/DataEntity',
     name: 'list.data-entity',
     icon: 'crown',
-    component: './DataEntity'
+    component: './DataEntity',
   },
   {
     name: 'list.table-list',
@@ -44,7 +44,7 @@
   },
   {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/home',
   },
   {
     component: './404',

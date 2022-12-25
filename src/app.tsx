@@ -1,20 +1,22 @@
 import React from 'react';
-import { Settings as LayoutSettings, PageLoading } from '@ant-design/pro-layout';
+import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
+import { PageLoading } from '@ant-design/pro-layout';
 import { notification } from 'antd';
-import { history, RequestConfig, RunTimeLayoutConfig } from 'umi';
+import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
+import { history } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
-import { ResponseError } from 'umi-request';
+import type { ResponseError } from 'umi-request';
 import { queryCurrent } from './services/user';
 import defaultSettings from '../config/defaultSettings';
-
+window.antdprourl = localStorage.antdprourl || ''; 
 /**
  * 获取用户信息比较慢的时候会展示一个 loading
  */
 export const initialStateConfig = {
   loading: <PageLoading />,
 };
-//获取 初始状态
+// 获取 初始状态
 export async function getInitialState(): Promise<{
   settings?: LayoutSettings;
   currentUser?: API.CurrentUser;
@@ -31,10 +33,10 @@ export async function getInitialState(): Promise<{
   };
   // 如果是登录页面，不执行
   if (history.location.pathname !== '/user/login') {
-    const currentUser = await fetchUserInfo();
+    // const currentUser = await fetchUserInfo();
     return {
       fetchUserInfo,
-      currentUser,
+      // currentUser,
       settings: defaultSettings,
     };
   }
@@ -50,11 +52,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     disableContentMargin: false,
     footerRender: () => <Footer />,
     onPageChange: () => {
-      const { location } = history;
+      // const { location } = history;
       // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== '/user/login') {
-        history.push('/user/login');
-      }
+      // if (!initialState?.currentUser && location.pathname !== '/user/login') {
+      //   history.push('/user/login');
+      // }
     },
     menuHeaderRender: undefined,
     // 自定义 403 页面
@@ -105,10 +107,10 @@ const errorHandler = (error: ResponseError) => {
   }
   throw error;
 };
-//通用的请求配置
+// 通用的请求配置
 export const request: RequestConfig = {
   errorHandler,
-  headers:{
-    Authorization:`Bearer ${localStorage.getItem('token')}`
-  }
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  },
 };

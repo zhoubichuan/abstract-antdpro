@@ -10,7 +10,7 @@ import {
 } from '@ant-design/pro-form';
 import { useIntl, FormattedMessage } from 'umi';
 
-import { TableListItem } from '../data.d';
+import type { TableListItem } from '../data.d';
 
 export interface FormValueType extends Partial<TableListItem> {
   target?: string;

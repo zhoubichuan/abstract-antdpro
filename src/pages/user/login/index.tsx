@@ -12,21 +12,13 @@ import React, { useState } from 'react';
 import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
 import { useIntl, Link, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
-import { accountLogin, getFakeCaptcha, LoginParamsType } from '@/services/login';
+import type { LoginParamsType } from '@/services/login';
+import { accountLogin, getFakeCaptcha } from '@/services/login';
 
 import styles from './index.less';
 
-const LoginMessage: React.FC<{
-  content: string;
-}> = ({ content }) => (
-  <Alert
-    style={{
-      marginBottom: 24,
-    }}
-    message={content}
-    type="error"
-    showIcon
-  />
+const LoginMessage: React.FC<{ content: string }> = ({ content }) => (
+  <Alert style={{ marginBottom: 24 }} message={content} type="error" showIcon />
 );
 
 /**
@@ -63,12 +55,12 @@ const Login: React.FC<{}> = () => {
     setSubmitting(true);
     try {
       // 登录
-      const msg = await accountLogin({ ...values, type });
-      if (msg.status === 'ok' && msg.token) {
-        //如果登录之后，服务器会返回JWT的token，需要把token保存起来
-        localStorage.setItem('token',msg.token);
+      const msg = await accountLogin({ ...values, type, });
+      if (msg.success  && msg.result.token) {
+        // 如果登录之后，服务器会返回JWT的token，需要把token保存起来
+        localStorage.setItem('token', msg.result.token);
         message.success('登录成功！');
-        await fetchUserInfo();
+        // await fetchUserInfo();
         goto();
         return;
       }
@@ -79,7 +71,7 @@ const Login: React.FC<{}> = () => {
     }
     setSubmitting(false);
   };
-  const { status, type: loginType } = userLoginState;
+  const { success, result: loginType } = userLoginState;
 
   return (
     <div className={styles.container}>
@@ -97,9 +89,7 @@ const Login: React.FC<{}> = () => {
 
         <div className={styles.main}>
           <ProForm
-            initialValues={{
-              autoLogin: true,
-            }}
+            initialValues={{ autoLogin: true }}
             submitter={{
               searchConfig: {
                 submitText: intl.formatMessage({
@@ -116,7 +106,7 @@ const Login: React.FC<{}> = () => {
                 },
               },
             }}
-            onFinish={async (values) => {
+            onFinish={async (values: any) => {
               handleSubmit(values);
             }}
           >
@@ -137,7 +127,7 @@ const Login: React.FC<{}> = () => {
               />
             </Tabs>
 
-            {status === 'error' && loginType === 'account' && (
+            {!success && loginType === 'account' && (
               <LoginMessage
                 content={intl.formatMessage({
                   id: 'pages.login.accountLogin.errorMessage',
@@ -194,7 +184,7 @@ const Login: React.FC<{}> = () => {
               </>
             )}
 
-            {status === 'error' && loginType === 'mobile' && <LoginMessage content="验证码错误" />}
+            {!success&& loginType === 'mobile' && <LoginMessage content="验证码错误" />}
             {type === 'mobile' && (
               <>
                 <ProFormText

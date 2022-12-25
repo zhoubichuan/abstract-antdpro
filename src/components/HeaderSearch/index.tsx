@@ -1,7 +1,7 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Input } from 'antd';
 import useMergeValue from 'use-merge-value';
-import { AutoCompleteProps } from 'antd/es/auto-complete';
+import type { AutoCompleteProps } from 'antd/es/auto-complete';
 import React, { useRef } from 'react';
 
 import classNames from 'classnames';
@@ -21,15 +21,8 @@ export interface HeaderSearchProps {
 }
 
 const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
-  const {
-    className,
-    defaultValue,
-    onVisibleChange,
-    placeholder,
-    open,
-    defaultOpen,
-    ...restProps
-  } = props;
+  const { className, defaultValue, onVisibleChange, placeholder, open, defaultOpen, ...restProps } =
+    props;
 
   const inputRef = useRef<Input | null>(null);
 

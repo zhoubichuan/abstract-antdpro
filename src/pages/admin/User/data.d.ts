@@ -31,6 +31,6 @@ export interface TableListParams {
   createdAt: Date;
   pageSize?: number;
   currentPage?: number;
-  filter?: { [key: string]: any[] };
-  sorter?: { [key: string]: any };
+  filter?: Record<string, any[]>;
+  sorter?: Record<string, any>;
 }

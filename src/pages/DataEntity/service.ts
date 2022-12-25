@@ -1,13 +1,13 @@
 import { request } from 'umi';
-import { TableListParams, TableListItem } from './data.d';
+import type { TableListParams, TableListItem } from './data.d';
 // 数据实体列表查询
 export async function getDataEntityList(params?: TableListParams) {
   return request('/dataModel/getDataEntityList', {
     method: 'POST',
-    data:{
+    data: {
       ...params,
       method: 'post',
-    }
+    },
   });
 }
 // 获取数据实体详情
@@ -22,7 +22,7 @@ export async function getDataEntityDetail(params: { id: number[] }) {
 }
 
 export async function addRule(params: TableListItem) {
-  return request('/api/rule', {
+  return request(window.antdprourl + '/api/rule', {
     method: 'POST',
     data: {
       ...params,
@@ -32,7 +32,7 @@ export async function addRule(params: TableListItem) {
 }
 
 export async function updateRule(params: TableListParams) {
-  return request('/api/rule', {
+  return request(window.antdprourl + '/api/rule', {
     method: 'POST',
     data: {
       ...params,
