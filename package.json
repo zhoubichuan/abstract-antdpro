@@ -1,8 +1,8 @@
 {
-  "name": "ant-design-pro",
-  "version": "5.0.0-beta.1",
+  "name": "abstract-antdpro",
+  "version": "1.0.0",
   "private": true,
-  "description": "An out-of-box UI solution for enterprise applications",
+  "description": "数据管理系统",
   "scripts": {
     "analyze": "cross-env ANALYZE=1 umi build",
     "build": "umi build",

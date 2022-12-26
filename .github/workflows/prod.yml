@@ -21,7 +21,7 @@ jobs:
       - name: copy file  via ssh key
         uses: appleboy/scp-action@master
         with:
-          source: "dist/*"
+          source: "abstract-antdpro/*"
           host: ${{ secrets.HOST }}
           target: "/usr/src/zhoubichuan/prod/abstract-antdpro/"
           port: ${{ secrets.PORT }}
