@@ -9,6 +9,9 @@ import Footer from '@/components/Footer';
 import type { ResponseError } from 'umi-request';
 import { queryCurrent } from './services/user';
 import defaultSettings from '../config/defaultSettings';
+import { customerResponseInterceptor, urlRequestInterceptor } from './services/index';
+
+
 window.antdprourl = localStorage.antdprourl || ''; 
 /**
  * 获取用户信息比较慢的时候会展示一个 loading
@@ -109,8 +112,19 @@ const errorHandler = (error: ResponseError) => {
 };
 // 通用的请求配置
 export const request: RequestConfig = {
-  errorHandler,
+  requestInterceptors: [urlRequestInterceptor],
+  responseInterceptors: [customerResponseInterceptor],
   headers: {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
+  },
+  errorHandler: (error: any) => {
+    const { response } = error;
+    if (!response) {
+      notification.error({
+        description: '您的网络发生异常，无法连接服务器',
+        message: '网络异常',
+      });
+    }
+    throw error;
   },
 };
