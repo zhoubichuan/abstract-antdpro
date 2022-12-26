@@ -10,7 +10,7 @@ import CreateForm from './components/CreateForm';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import type { TableListItem } from './data.d';
-import { queryUser, updateUser, addUser, removeUser } from './service';
+import { queryUser, updateUser, addUser, removeUser, detailUser } from './service';
 import moment from 'moment';
 /**
  * 添加节点
@@ -44,7 +44,6 @@ const handleUpdate = async (id: string, fields: FormValueType) => {
       email: fields.email,
     });
     hide();
-
     message.success('配置成功');
     return true;
   } catch (error) {
@@ -62,9 +61,7 @@ const handleRemove = async (selectedRows: TableListItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    await removeUser({
-      key: selectedRows.map((row) => row.id!),
-    });
+    await removeUser(selectedRows.map((row) => row._id!));
     hide();
     message.success('删除成功，即将刷新');
     return true;
@@ -82,13 +79,28 @@ const TableList: React.FC<{}> = () => {
   const actionRef = useRef<ActionType>();
   const [row, setRow] = useState<TableListItem>();
   const [selectedRowsState, setSelectedRows] = useState<TableListItem[]>([]);
+  /**
+   *  节点详情
+   * @param selectedRows
+   */
+  const handleDetail = async (selectedRows: any) => {
+    if (!selectedRows) return true;
+    try {
+      const msg = await detailUser({ id: selectedRows._id });
+      setRow(msg.result);
+      return true;
+    } catch (error) {
+      message.error('查询失败，请重试');
+      return false;
+    }
+  };
   const columns: ProColumns<TableListItem>[] = [
     {
       title: '用户名',
       dataIndex: 'username',
       tip: '用户名',
       render: (dom, entity) => {
-        return <a onClick={() => setRow(entity)}>{dom}</a>;
+        return <a onClick={() => handleDetail(entity)}>{dom}</a>;
       },
     },
     {
@@ -164,9 +176,9 @@ const TableList: React.FC<{}> = () => {
   return (
     <PageContainer>
       <ProTable<TableListItem>
-        headerTitle={'用户管理'}
         actionRef={actionRef}
-        rowKey="id"
+        rowKey="_id"
+        options={false}
         search={{
           labelWidth: 120,
         }}
@@ -193,7 +205,7 @@ const TableList: React.FC<{}> = () => {
             data: msg.result.data,
             // success 请返回 true，
             // 不然 table 会停止解析数据，即使有数据
-            success: msg.statusCode===200,
+            success: msg.statusCode === 200,
             // 不传会使用 data 的长度，如果是分页一定要传
             total: msg.result.page.total,
           };
@@ -243,7 +255,7 @@ const TableList: React.FC<{}> = () => {
       {userFormValues && Object.keys(userFormValues).length ? (
         <UpdateForm
           onSubmit={async (value) => {
-            const success = await handleUpdate(userFormValues.id!, value);
+            const success = await handleUpdate(userFormValues._id!, value);
             if (success) {
               handleUpdateModalVisible(false);
               setUserFormValues({});

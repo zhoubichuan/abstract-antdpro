@@ -4,7 +4,7 @@ export interface TableListItem {
   email?: string;
   avatar?: string;
   access?: string;
-  id?: string;
+  _id?: string;
   updatedAt?: Date;
   createdAt?: Date;
 }
